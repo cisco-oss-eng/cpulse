@@ -6,10 +6,12 @@ when the infrastructure failure is detected early, these applications can be mov
 can be notified . The key take away here is catching and handling failures before NFV customer experiences an application failure.
 
 when is openstack healthy ?
+----------------------------
 a. All openstack services receives queries and replies back with an expected result.
 b. Packets can be sent and received on tenant and external network
 
-Goal:
+Requirements
+------------
 Provide a tool that checks the health of the cloud.
 1. Should be light weight, non disruptive and less  resource intensive.
 2. Should provide configurable functional testing
@@ -18,7 +20,8 @@ Provide a tool that checks the health of the cloud.
 5. Should work for both tenants and operators
 6. Provide both CLI and API.
 
-Different type of health checks:
+Different type of health checks
+--------------------------------
 1. Operator check*
    a. Check all services are running and listening on the ports  
    b. check the cluster status of infra components rabbit and percona (mysql ‘wsrep’ and rabbitmqctl cluster_status)
@@ -52,9 +55,11 @@ Requires cloud-admin and operator access.
    c. Check security groups after upgrade (ping, ssh and http)
 
 Application health check
+-------------------------
    Application can make use of endpoint, comprehensive, functional and upgrade checks. Application can snapshot the resources before upgrade and then check there state after the upgrade. Cloud Pulse itself can be run as a tenant-vm, which then can provide REST-API access to other NFV, VNFM, NFVO applications.
 
 Operator health check
+----------------------
   Operators can install cloud-pulse in one of the controllers directly or using docker container. They should be able to run all of the health checks listed above.
 
 Design:
