@@ -1,0 +1,47 @@
+#! /usr/bin/python
+
+from argparse import ArgumentDefaultsHelpFormatter, ArgumentError, \
+    ArgumentParser
+
+import sys
+import threading
+import sys
+
+sys.path.append("/home/cisco/cpulse/cpulse_server/src")
+from cpulse_server.rest.cpulse_app import cpulse_app
+from cpulse_server.rest.tasks import timer_task 
+from cpulse_server.infra.logger import getlog
+
+
+CPHOST = None
+CPPORT = None
+DEBUG = False
+
+try:
+    # Setup argument parser
+    parser = ArgumentParser(
+            description='Cloud Pulse RESTful web service',
+            formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--host', help='Host name or IP address',
+                        default='0.0.0.0')
+    parser.add_argument('--port', help='Listening port number',
+                        default=7070)
+    parser.add_argument('--debug', help='Run in debug mode',
+                        default=False, action='store_true', dest='debug')
+    args = parser.parse_args()
+    CPHOST = args.host
+    CPPORT = int(args.port)
+    DEBUG = args.debug
+
+except ArgumentError, err:
+    print err.message, '\n', err.argument
+    sys.exit(1)
+
+log = getlog(logfile = "/var/log/cpulse/cpulse.log")
+log.info("Starting Cloud Pulse service ...")
+#Start the timer task for periodic tests
+tm = threading.Timer(30, timer_task)
+tm.start()
+
+cpulse_app.run(host=CPHOST, port=CPPORT, threaded=True, debug=DEBUG, ssl_context='adhoc')
+
