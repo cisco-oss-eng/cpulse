@@ -1,4 +1,5 @@
 from novaclient.client import Client
+from novaclient.exceptions import ClientException
 class NovaHealth(object):
     """
     Provides all the necessary API
@@ -13,7 +14,6 @@ class NovaHealth(object):
         """
         try:
             service_list = self.novaclient.services.list()
-        except Exception as e:
-            print e
-            return (400, [])
-        return (200, service_list)
+        except (ClientException, Exception) as e:
+            return (e.message, [])
+        return ("success", service_list)
