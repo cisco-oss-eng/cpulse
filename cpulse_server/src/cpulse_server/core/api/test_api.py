@@ -3,6 +3,35 @@ import configure
 import credentials
 import nova_api
 import neutron_api
+import keystone_api
+
+def nova_endpoint_check(nova_instance):
+    status, message, service_list = nova_instance.nova_service_list()
+    if  status == 200:
+        for service in service_list:
+            print "Binary=%s Host=%s Zone=%s Status=%s State=%s" %(service.binary, service.host,
+                                                                   service.zone, service.status,
+                                                                   service.state)
+    else:
+        print "Nova service list error:%s" %(message)
+        
+def keystone_endpoint_check(keystone_instance):
+    status, message, service_list = keystone_instance.keystone_service_list()
+    if status == 200:
+        for service in service_list:
+            print "Service=%s enabled=%s" %(service.name, service.enabled)
+    else:
+        print "Keystone service list error:%s" %(message)
+    
+
+def neutron_endpoint_check(neutron_instance):
+    status, message, agent_list = neutron_instance.neutron_agent_list()
+    if status == 200:
+        for agent in agent_list:
+            print "Agent=%s Host=%s Alive=%s admin_state_up=%s" %(agent['binary'], agent['host'],
+                                                                  agent['alive'], agent['admin_state_up'])
+    else:
+        print "neutron agent list error:%s" %(message)
 
 def health_check_start():
     """
@@ -13,26 +42,16 @@ def health_check_start():
     creds = cred.get_credentials()
     creds_nova = cred.get_nova_credentials_v2()
     # Create the clients for all components
-    
     nova_instance = nova_api.NovaHealth(creds_nova)
-    message, services_list = nova_instance.nova_service_list()
-    if  message == "success":
-        for service in services_list:
-            print "Binary=%s Host=%s Zone=%s Status=%s State=%s" %(service.binary, service.host,
-                                                                   service.zone, service.status,
-                                                                   service.state)
-    else:
-        print "Nova service list error:%s" %(message)
-
     neutron_instance = neutron_api.NeutronHealth(creds)
-    message, agent_list = neutron_instance.neutron_agent_list()
-    if message == "success":
-        for agent in agent_list:
-            print "Agent=%s Host=%s Alive=%s admin_state_up=%s" %(agent['binary'], agent['host'],
-                                                                  agent['alive'], agent['admin_state_up'])
-    else:
-        print "neutron agent list error:%s" %(message)
+    keystone_instance = keystone_api.KeystoneHealth(creds)
+    # Check the health of various endpoints
+    nova_endpoint_check(nova_instance)
+    neutron_endpoint_check(neutron_instance)
+    keystone_endpoint_check(keystone_instance)
     
+    
+
 
 if __name__ == '__main__':
     default_cfg_file = "cfg_api.yaml"

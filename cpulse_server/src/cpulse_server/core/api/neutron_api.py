@@ -8,5 +8,5 @@ class NeutronHealth(object):
         try:
             agent_list = self.neutronclient.list_agents()  
         except (NeutronException,Exception) as e:
-            return (e.message, [])
-        return ("success", agent_list['agents'])
+            return (404, e.message, [])
+        return (200, "success", agent_list['agents'])

@@ -15,5 +15,5 @@ class NovaHealth(object):
         try:
             service_list = self.novaclient.services.list()
         except (ClientException, Exception) as e:
-            return (e.message, [])
-        return ("success", service_list)
+            return (400, e.message, [])
+        return (200, "success", service_list)
