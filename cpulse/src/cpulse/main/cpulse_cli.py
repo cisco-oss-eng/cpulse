@@ -63,7 +63,12 @@ def cli(package_type=None, argv=None):
         check_parser.add_argument('-m', '--mode', dest='mode',
                                      metavar='NAME',
                                      default=False, required=True,
-                                     help='Supported test modes\nOperator\nEndpoint\nFunctional\nComprehensive')
+                                     help='Supported test modes are Operator, Endpoint, Functional, Comprehensive')
+
+        check_parser.add_argument('-s', '--service', dest='service',
+                                     metavar='NAME', default='all',
+                                     help='Service needs to be nova, neutron, cinder, glance, keystone, all')
+
         check_parser.set_defaults(func = cpulse_check)
 
         result_parser.add_argument('-i', '--id', dest='handle',
