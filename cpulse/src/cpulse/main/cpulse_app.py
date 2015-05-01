@@ -5,6 +5,7 @@ def cpulse_check(args, server_url):
     print args.service
     #req = server_url + '/cpulse/v1'
     req = server_url + '/cpulse/'+args.mode+'/'+args.service
+#    req = server_url + '/'+args.mode+'/'+args.service
     print req
     ret = requests.get(req, verify=False)
     print ret.status_code
