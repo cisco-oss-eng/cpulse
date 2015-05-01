@@ -3,7 +3,6 @@ from keystoneclient.exceptions import ClientException
 
 class KeystoneHealth(object):
     def __init__(self, creds):
-        print creds
         self.keystoneclient = keystone_client.Client(**creds)
     
     def keystone_service_list(self):
