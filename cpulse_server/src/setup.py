@@ -11,26 +11,27 @@ PKGVERSION = '0.1.0'
 PACKAGES = ['cpulse_server',
             'cpulse_server.infra',
             'cpulse_server.rest',
-            'cpulse_server.rest.blueprints']
+            'cpulse_server.rest.blueprints',
+            'cpulse_server.core',
+            'cpulse_server.core.api',
+            'cpulse_server.core.operator',
+            'cpulse_server.extensions',
+         ]
 
 #DATA = {'cpulse_server.parser': ['schema/*', 'template/*'],
 #        'cpulse_server.action': ['internal_config'],
 #        'cpulse_server.vm.test': ['*.xml'],
 #        'cpulse_server.rest.test':['*.txt']}
 DATA = {}
-#FILES = [('share/doc/python-cpulse_server', glob('doc/*.pdf')),
-#         ('/etc/cpulse_server', ['data/cpulse_serverrc']),
-#         ('/etc/init', ['cpulse_server/infra/vmcwebsvc.conf']),
-#         ('/etc/sudoers.d', ['cpulse_server/infra/vmcperms'])]
+FILES = [
+         ('/etc/init', ['cpulse_server/infra/cpulsesvc.conf'])
+        ]
 
-#SCRIPTS = ['cpulse_server/rest/cpulse_server',
-#           'cpulse_server/rest/logscrubber']
+SCRIPTS = ['cpulse_server/infra/cpulsesvc']
 
 #REQUIRES = ['lxml', 'libxml2', 'libvirt', 'guestfs', 'pyvmomi']
 
-SCRIPTS = []
 REQUIRES = []
-FILES = []
 
 setup(
       name='cpulse_server',
