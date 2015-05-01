@@ -11,8 +11,9 @@ export OS_AUTH_URL=http://172.29.87.40:5000/v2.0
 
 # With the addition of Keystone we have standardized on the term **tenant**
 # as the entity that owns the resources.
-export OS_TENANT_ID=79d0a470484c4732a365a71a28700bb0
-export OS_TENANT_NAME="admin"
+#export OS_TENANT_ID=79d0a470484c4732a365a71a28700bb0
+export OS_TENANT_ID=9831b373681945c3be71bb096dd455d2
+export OS_TENANT_NAME="cpulse"
 
 # In addition to the owning entity (tenant), openstack stores the entity
 # performing the action as the **user**.

@@ -1,11 +1,22 @@
 from flask import Flask
 import logging
 import json
+import pkgutil
 from flask import Blueprint, request, Response 
 from cpulse_server.infra.logger import getlog
+import cpulse_server.rest.blueprints
 
 
 cpulse_app = Flask(__name__)
+
+# Import the blueprints from the blueprints package
+package = cpulse_server.rest.blueprints
+prefix = package.__name__ + "."
+for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
+    _module = __import__(modname, globals(), locals(), ['page'], -1)
+    print "BluePrint Registered .."
+    cpulse_app.register_blueprint(_module.page)
+
 
 # Set logger for cpulse 
 errlog = '/var/log/cpulse/cpulse.log' 
