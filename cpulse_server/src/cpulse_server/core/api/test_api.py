@@ -4,6 +4,7 @@ import credentials
 import nova_api
 import neutron_api
 import keystone_api
+import glance_api
 
 def nova_endpoint_check(nova_instance):
     status, message, service_list = nova_instance.nova_service_list()
@@ -33,6 +34,15 @@ def neutron_endpoint_check(neutron_instance):
     else:
         print "neutron agent list error:%s" %(message)
 
+def glance_endpoint_check(glance_instance):
+    status, message, image_list = glance_instance.glance_image_list()
+    if status == 200:
+        for image in image_list:
+            print "Image=%s Status=%s" %(image.name, image.status)
+    else:
+        print "Image List error:%s" %(message)
+
+
 def health_check_start():
     """
     Function that triggers the health Check of
@@ -45,10 +55,12 @@ def health_check_start():
     nova_instance = nova_api.NovaHealth(creds_nova)
     neutron_instance = neutron_api.NeutronHealth(creds)
     keystone_instance = keystone_api.KeystoneHealth(creds)
+    glance_instance = glance_api.GlanceHealth(keystone_instance)
     # Check the health of various endpoints
     nova_endpoint_check(nova_instance)
     neutron_endpoint_check(neutron_instance)
     keystone_endpoint_check(keystone_instance)
+    glance_endpoint_check(glance_instance)
     
     
 
