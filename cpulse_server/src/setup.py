@@ -1,6 +1,5 @@
-
 from datetime import date
-from distutils.core import setup
+from setuptools import setup
 from glob import glob
 import os
 import sys
@@ -16,23 +15,24 @@ PACKAGES = ['cpulse_server',
             'cpulse_server.core.api',
             'cpulse_server.core.operator',
             'cpulse_server.extensions',
-         ]
-
-#DATA = {'cpulse_server.parser': ['schema/*', 'template/*'],
-#        'cpulse_server.action': ['internal_config'],
-#        'cpulse_server.vm.test': ['*.xml'],
-#        'cpulse_server.rest.test':['*.txt']}
+           ]
 DATA = {}
 FILES = [
          ('/etc/init', ['cpulse_server/infra/cpulsesvc.conf'])
         ]
 
 SCRIPTS = ['cpulse_server/infra/cpulsesvc']
-
-#REQUIRES = ['lxml', 'libxml2', 'libvirt', 'guestfs', 'pyvmomi']
-
-REQUIRES = []
-
+REQUIRES = ['flask',
+            'pyOpenSSL',
+            'python-novaclient',
+            'python-openstackclient',
+            'python-keystoneclient',
+            'python-glanceclient',
+            'python-cinderclient',
+            'python-swiftclient',
+            'python-ceilometerclient',
+            'python-heatclient',
+            'python-neutronclient']
 setup(
       name='cpulse_server',
       version=PKGVERSION,
@@ -45,5 +45,5 @@ setup(
       package_data=DATA,
       data_files=FILES,
       scripts=SCRIPTS,
-      requires=REQUIRES,
+      install_requires=REQUIRES,
       )

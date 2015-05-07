@@ -94,6 +94,6 @@ def cli(package_type=None, argv=None):
         print "File Error " . format(err.errno, err.strerror)
         return 1
 
-if __name__ == "__main__":
+def main():
     sys.exit(cli())
 
