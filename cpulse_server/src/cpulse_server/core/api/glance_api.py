@@ -15,4 +15,14 @@ class GlanceHealth(object):
         except (ClientException, Exception) as e:
             return (404, e.message, [])
         return (200, "success", image_list)
+
+    def glance_image_create(self,image_url,image_name,container_format,disk_format):
+        try:
+            ret = self.glanceclient.images.create(location=image_url,
+                    name=image_name,
+                    container_format=container_format,
+                    disk_format=disk_format)
+        except (ClientException, Exception) as e:
+            return (404, e.message, [])
+        return (200, "success", ret)
         

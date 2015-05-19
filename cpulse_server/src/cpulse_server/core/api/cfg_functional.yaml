@@ -1,0 +1,8 @@
+flavor: 'm1.tiny'
+network_cidr : '10.0.4.0/24'
+admin_user: 'admin'
+admin_role: 'admin'
+prefix: 'cpulse'
+image_url: 'http://172.17.39.214/images/ubuntu-14.04-server-cloudimg-amd64-disk1.img'
+image_container_format : 'bare'
+image_disk_format : 'qcow2'
